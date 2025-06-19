@@ -1,4 +1,3 @@
-// server.js
 import express from 'express';
 import cors from 'cors';
 import fetch from 'node-fetch';
@@ -24,12 +23,19 @@ User: ${userPrompt}`;
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: fullPrompt }] }]
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: fullPrompt }]
+          }
+        ]
       })
     });
 
     const data = await response.json();
+    console.log(JSON.stringify(data, null, 2)); // <- Inspect response
     const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't answer that.";
+
     res.json({ reply });
   } catch (error) {
     console.error(error);
