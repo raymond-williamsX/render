@@ -17,7 +17,7 @@ app.post('/ask-gemini', async (req, res) => {
     }
 
     const fullPrompt = `
-My name is Raymond Williams. I am a front-end developer and aspiring AI enthusiast based in Abuja Nigeria.
+My name is Raymond Williams. I am a front-end developer and aspiring Full Stack Developer based in Abuja Nigeria.
 I specialize in HTML5, CSS3, JavaScript, React, UI/UX, GSAP, Next.js. I’ve built sleek up to date websites, portfolio sites, simple games, and more.
 I’m passionate about design, sleek user interfaces, and creating meaningful digital experiences.
 
@@ -52,6 +52,14 @@ User: ${userPrompt}`;
     res.status(500).json({ reply: "Server error occurred." });
   }
 });
+
+if (!response.ok) {
+  const errorText = await response.text();
+  console.error("Gemini API error:", errorText);
+
+  if (errorText.includes("RESOURCE_EXHAUSTED")) {
+    return res.status(429).json({ reply: "Raymond's AI is resting. Please try again tomorrow!" });
+  }
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
