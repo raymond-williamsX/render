@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const GEMINI_API_KEY = 'AIzaSyBsdYS0Cxcb8N6IA5Q3PEeadFdS57yEXzU'; // Replace this
+const GEMINI_API_KEY = 'AIzaSyBsdYS0Cxcb8N6IA5Q3PEeadFdS57yEXzU'; // Replace with ENV var in production
 
 app.post('/ask-gemini', async (req, res) => {
   try {
@@ -19,8 +19,7 @@ I’m passionate about design, sleek user interfaces, and creating meaningful di
 
 User: ${userPrompt}`;
 
-    const response = await fetch(`const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
-`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -34,12 +33,13 @@ User: ${userPrompt}`;
     });
 
     const data = await response.json();
-    console.log(JSON.stringify(data, null, 2)); // <- Inspect response
-    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't answer that.";
+    console.log(JSON.stringify(data, null, 2)); // Logs the raw Gemini response
 
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't answer that.";
     res.json({ reply });
+
   } catch (error) {
-    console.error(error);
+    console.error('Error:', error);
     res.status(500).json({ reply: "Server error occurred." });
   }
 });
