@@ -19,7 +19,7 @@ I’m passionate about design, sleek user interfaces, and creating meaningful di
 
 User: ${userPrompt}`;
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${AIzaSyBsdYS0Cxcb8N6IA5Q3PEeadFdS57yEXzU}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
